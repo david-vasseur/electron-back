@@ -16,17 +16,17 @@ const port = 3001;
 app.use(cookieParser());
 app.use(express.json());
 
-app.get('/api/verify', cors(), verifyUser);
+app.get('/photo-share/api/verify', cors(), verifyUser);
 
 app.use(cors({
   origin: false, 
   credentials: true
 }));
 
-app.use('/api/users', userRoute);
-app.use('/api/images', imageRoute);
-app.use('/api/event', eventRoute);
+app.use('/photo-share/api/users', userRoute);
+app.use('/photo-share/api/images', imageRoute);
+app.use('/photo-share/api/event', eventRoute);
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server running`);
 });
