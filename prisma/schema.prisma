@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id          Int         @id @default(autoincrement())
+  email       String      @unique @db.VarChar(255)
+  firstname   String      @db.VarChar(255)
+  name        String      @db.VarChar(255)
+  password    String      @db.VarChar(255)
+  guestpass   String      @db.VarChar(255)
+  isverified  Boolean
+  hmac        String      @unique @db.VarChar(255)
+  events      event[]
+}
+
+model event {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(20)
+  public    Boolean
+  user_id   Int         
+  user      user        @relation(fields: [user_id], references: [id])
+  images     image[]    // backref
+}
+
+model image {
+  id        Int         @id @default(autoincrement())
+  name      String      @db.VarChar(255)
+  event_id  Int       
+  event     event       @relation(fields: [event_id], references: [id])
+  image_tag image_tag[]
+}
+
+model image_tag {
+  image_id Int
+  tag_id   Int
+  image    image        @relation(fields: [image_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "image_tag_ibfk_1")
+  tag      tag          @relation(fields: [tag_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "image_tag_ibfk_2")
+
+  @@id([image_id, tag_id])
+  @@index([tag_id], map: "tag_id")
+}
+
+model tag {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique(map: "name") @db.VarChar(255)
+  image_tag image_tag[]
+}
