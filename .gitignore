@@ -1,0 +1,4 @@
+node_modules
+gcs
+prisma
+.env
