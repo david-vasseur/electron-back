@@ -8,7 +8,8 @@ export const createEvent = async (userId, name) => {
     return await prisma.event.create({
         data: {
             name,
-            user_id: userId
+            user_id: userId,
+            public: true
         }
     })
 }

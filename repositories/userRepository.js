@@ -68,6 +68,7 @@ export const getGuestUser = async (guestpass) => {
         where: { guestpass },
         select: {
             id: true,
+            firstname: true,
             name: true,
             guestpass: true,
             events: {
@@ -91,6 +92,7 @@ export const getUserById = async (id) => {
         select: {
             id: true,
             email: true,
+            firstname: true,
             name: true,
             guestpass: true,
             events: {
