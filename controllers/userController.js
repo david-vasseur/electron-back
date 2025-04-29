@@ -28,7 +28,7 @@ export const userLoginController = async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,      
-            secure: false, 
+            secure: true, 
             sameSite: 'none',
             maxAge: 60 * 60 * 1000 
         });
@@ -78,7 +78,7 @@ export const guestLoginController = async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,      
-            secure: false, 
+            secure: true, 
             sameSite: 'none',
             maxAge: 60 * 60 * 1000 
         });

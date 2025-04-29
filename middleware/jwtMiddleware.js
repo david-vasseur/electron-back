@@ -5,7 +5,9 @@ export const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.status(401).json({ message: 'Accès non autorisé, token manquant' });
+        console.log(req.cookie);
+        return res.status(401).json({ message: 'Accès non autorisé' });
+        
     }
 
     try {
