@@ -10,13 +10,23 @@ export const createUser = async (email, password, firstname, name) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     let guestpass;
+    let hmac;
     let exists = true;
+    let exist = true;
 
     while (exists) {
         guestpass = crypto.randomBytes(8).toString('hex');
+        
         exists = await prisma.user.findFirst({
             where: { guestpass }
         });
+    }
+
+    while (exist) {
+        hmac = crypto.randomBytes(8).toString('hex');
+        exist = await prisma.user.findFirst({
+            where: { hmac }
+        })
     }
 
     return await prisma.user.create({ 
@@ -27,7 +37,7 @@ export const createUser = async (email, password, firstname, name) => {
             password: hashedPassword,
             guestpass,
             isverified: false,
-            hmac: ""
+            hmac,
         } 
     });
 };
