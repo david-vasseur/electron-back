@@ -41,7 +41,7 @@ export const userLoginController = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 role: "user",
-                guestPass: user.guestpass,
+                guestpass: user.guestpass,
                 events: user.events 
             }            
         });

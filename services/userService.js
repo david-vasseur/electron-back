@@ -24,7 +24,7 @@ export const userLoginService = async (email, password) => {
 
         const user = await getUserById(verifUser.id);
 
-            console.log(user.name, "vient de se connecter");
+            console.log(user.firstname, user.name, "vient de se connecter");
             return user;
 
     } catch (error) {
@@ -43,7 +43,7 @@ export const guestLoginService = async (guestpass) => {
 
         const user = await getGuestUser(guestpass);
 
-        console.log(user.name, "vient de se connecter en invité");
+        console.log(user.firstname, user.name, "vient de se connecter en invité");
         return user;
 
     } catch (error) {
