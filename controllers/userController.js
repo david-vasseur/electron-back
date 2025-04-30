@@ -5,7 +5,7 @@ import { guestLoginService, userLoginService, userRegisterService } from "../ser
 
 /// Controlleur d'authentification ///
 
-export const userLoginController = async (req, res) => {
+export const userLoginController = async (req, res, next) => {
     
     try {
 
