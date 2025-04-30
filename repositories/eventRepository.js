@@ -73,6 +73,9 @@ export const updateEventAccessById = async (eventId) => {
         }
     });
 
+    console.log("repo event", event);
+    
+
     return await prisma.event.update({
         where: { id: eventId },
         data: {
