@@ -1,4 +1,3 @@
-import { getOneEvent, updateEventNameById } from "../repositories/eventRepository.js";
 import { deleteEventSchema, newEventSchema, updateNameSchema } from "../schemaValidation/eventSchema.js";
 import { deleteEventService, newEventService, updateEventAccessService, updateEventNameService } from "../services/eventService.js";
 

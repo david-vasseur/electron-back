@@ -1,4 +1,4 @@
-import { createEvent, deleteEventById, getOneEvent, updateEventNameById } from "../repositories/eventRepository.js";
+import { createEvent, deleteEventById, getOneEvent, updateEventAccessById, updateEventNameById } from "../repositories/eventRepository.js";
 import { getUserById } from "../repositories/userRepository.js";
 
 /// Service pour creer un event ///
@@ -83,7 +83,7 @@ export const updateEventAccessService = async (eventId) => {
             throw new Error("Event introuvable");
         }
 
-        const event = await updateEventAccessService(eventId);
+        const event = await updateEventAccessById(eventId);
 
         if (!event) {
             throw new Error("Erreur lors de la mise a jour de l'événement.");
@@ -94,5 +94,4 @@ export const updateEventAccessService = async (eventId) => {
     } catch (error) {
         throw error;   
     }
-
-}
+};

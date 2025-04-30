@@ -35,7 +35,7 @@ export const deleteEventById = async (eventId) => {
             where: { id: { in: imageIds } },
         });
 
-        await tx.event.delete({
+        return await tx.event.delete({
             where: { id: eventId },
         });
     });
