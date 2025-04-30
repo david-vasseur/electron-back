@@ -6,6 +6,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import { verifyUser } from './middleware/verifyMiddleware.js';
+import errorMiddleware from './middleware/errorMiddleware.js';
 
 dotenv.config();
 
@@ -26,6 +27,8 @@ app.use(cors({
 app.use('/api/users', userRoute);
 app.use('/api/images', imageRoute);
 app.use('/api/event', eventRoute);
+
+app.use(errorMiddleware);
 
 app.listen(port, () => {
   console.log(`Server running`);
