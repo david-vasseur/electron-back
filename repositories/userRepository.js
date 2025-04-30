@@ -60,7 +60,7 @@ export const searchUserByEmail = async (email) => {
 /// Recherche d'un utilisateur par GuestPass ///
 
 export const searchUserByGuestpass = async (guestpass) => {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
         where: { guestpass },
         select: {
             id: true,
@@ -74,7 +74,7 @@ export const searchUserByGuestpass = async (guestpass) => {
 /// Recuperer les infos de l'utilisateur par rapport au guestPass ///
 
 export const getGuestUser = async (guestpass) => {
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
         where: { guestpass },
         select: {
             id: true,
