@@ -1,8 +1,10 @@
-import { deleteEventById, getOneEvent, updateEventNameById } from "../repositories/eventRepository.js";
-import { newEventSchema } from "../schemaValidation/eventSchema.js";
-import { newEventService } from "../services/eventService.js";
+import { getOneEvent, updateEventNameById } from "../repositories/eventRepository.js";
+import { deleteEventSchema, newEventSchema, updateNameSchema } from "../schemaValidation/eventSchema.js";
+import { deleteEventService, newEventService, updateEventAccessService, updateEventNameService } from "../services/eventService.js";
 
-export const newEvent = async (req, res) => {
+// Controller pour creer un event ///
+
+export const newEventController = async (req, res) => {
 
     try {
 
@@ -25,41 +27,78 @@ export const newEvent = async (req, res) => {
     }
 };
 
-export const deleteEvent = async (req, res) => {
-    const { eventId } = req.params;
+/// Controller pour supprimer un event ///
+
+export const deleteEventController = async (req, res) => {
 
     try {
 
-        await deleteEventById(parseInt(eventId));
-        res.status(200).json({ message: "Événement supprimé avec succès" });
+        const { error } = deleteEventSchema.validate(req.params);
+
+            if (error) {
+                res.status(400).json({ message: "Erreur de données" });
+                return;
+            }
+
+        const { eventId } = req.params;
+        const parsedEventId = parseInt(eventId);
+
+        const event = await deleteEventService(parsedEventId);
+        res.status(200).json({ message: "Événement supprimé avec succès", event });
         
     } catch (error) {
         console.log(error);
-
-        if (error.message === "Événement non trouvé") {
-            return res.status(404).json({ message: "Événement non trouvé" });
-        }
+        res.status(500).json({ message: 'Erreur serveur' });
     }
-}
+};
 
-export const updateEventName = async (req, res) => {
-    const { eventId } = req.params;
-    const { newName } = req.body;
+/// Controller pour mettre a jour le nom d'un event ///
+
+export const updateEventNameController = async (req, res) => {
 
     try {
+
+        const { error } = updateNameSchema.validate({ ...req.body, ...req.params });
+
+            if (error) {
+                res.status(400).json({ message: "Erreur de données" });
+                return;
+            }
+
+        const { eventId } = req.params;
+        const { newName } = req.body;
+        const parsedEventId = parseInt(eventId);
         
-        const existingEvent = await getOneEvent(eventId);
-
-        if (!existingEvent) {
-            res.status(404).json({ message: "Événement non trouvé" })
-        }
-
-        await updateEventNameById(eventId, newName);
-        res.status(201).json({ message: "Événement modifié avec succès" })
+        const event = await updateEventNameService(parsedEventId, newName);
+        res.status(201).json({ message: "Événement modifié avec succès", event })
 
     } catch (error) {
         console.log(error);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+};
+
+/// Controller pour mettre a jour public/private d'un event ///
+
+export const updateEventAccessController = async (req, res) => {
+
+    try {
+
+        const { error } = deleteEventSchema.validate(req.params);
+
+            if (error) {
+                res.status(400).json({ message: "Erreur de données" });
+                return;
+            }
+
+        const { eventId } = req.params;
+        const parsedEventId = parseInt(eventId);
         
-        return res.status(400).json({ message: "Erreur serveur" });
+        const event = await updateEventAccessService(parsedEventId);
+        res.status(201).json({ message: "Événement modifié avec succès", event })
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Erreur serveur' });
     }
 };
