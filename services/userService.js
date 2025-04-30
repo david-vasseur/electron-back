@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { createUser, getGuestUser, getUserById, searchUserByEmail, searchUserByGuestpass } from "../repositories/userRepository.js";
 import { sendConfirmationEmail } from '../utils/emailService.js';
+import createError from '../utils/createError.js';
 
 export const userLoginService = async (email, password) => {
   
@@ -9,17 +10,17 @@ export const userLoginService = async (email, password) => {
         const verifUser = await searchUserByEmail(email);   
 
             if (!verifUser) {
-                throw new Error("Email ou mot de passe non valide");
+                throw createError("Email ou mot de passe non valide", 401);
             };
 
             if (verifUser.isverified === false) {
-                throw new Error("Compte pas encore validé");
+                throw createError("Compte pas encore validé", 403);
             }
 
         const isValid = await bcrypt.compare(password, verifUser.password);
 
             if (!isValid) {
-                throw new Error("Email ou mot de passe non valide");                
+                throw createError("Email ou mot de passe non valide", 401);                
             };
 
         const user = await getUserById(verifUser.id);
@@ -38,7 +39,7 @@ export const guestLoginService = async (guestpass) => {
         const verifGuestUser = await searchUserByGuestpass(guestpass);
             
         if (!verifGuestUser) {
-            throw new Error("GuestPass incorrect ou inexistant");
+            throw createError("GuestPass incorrect ou inexistant", 400);
         }
 
         const user = await getGuestUser(guestpass);
@@ -58,7 +59,7 @@ export const userRegisterService = async (email, password, firstname, name) => {
         const verifyExistingUser = await searchUserByEmail(email);
 
         if (verifyExistingUser) {
-            throw new Error("Un utilisateur est deja inscrit avec cet email")
+            throw createError("Un utilisateur est deja inscrit avec cet email", 403)
         }
 
         const token = jwt.sign(
@@ -72,7 +73,7 @@ export const userRegisterService = async (email, password, firstname, name) => {
         const mail = await sendConfirmationEmail(email, token);
 
         if (mail.info?.rejected.length > 0) {
-            throw new Error('Email rejeté');
+            throw createError('Email rejeté');
           }
 
         const user = await createUser(email, password, firstname, name);

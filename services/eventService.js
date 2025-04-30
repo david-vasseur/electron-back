@@ -1,5 +1,6 @@
 import { createEvent, deleteEventById, getOneEvent, updateEventAccessById, updateEventNameById } from "../repositories/eventRepository.js";
 import { getUserById } from "../repositories/userRepository.js";
+import createError from "../utils/createError.js";
 
 /// Service pour creer un event ///
 
@@ -9,7 +10,7 @@ export const newEventService = async (userId, name) => {
         const verifUser = await getUserById(userId);   
 
             if (!verifUser) {
-                throw new Error("Utilisateur inexistant")
+                throw createError("Utilisateur inexistant", 404)
             };
 
         const newEvent = await createEvent(userId, name);
@@ -30,13 +31,13 @@ export const deleteEventService = async (eventId) => {
         const existingEvent = await getOneEvent(eventId);
 
         if (!existingEvent) {
-            throw new Error("Event introuvable");
+            throw createError("Event introuvable", 404);
         }
 
         const event = await deleteEventById(eventId);
 
         if (!event) {
-            throw new Error("Erreur lors de la suppression de l'événement.");
+            throw createError("Erreur lors de la suppression de l'événement.", 500);
         }
 
         return event;
@@ -55,13 +56,13 @@ export const updateEventNameService = async (eventId, newName) => {
         const existingEvent = await getOneEvent(eventId);
 
         if (!existingEvent) {
-            throw new Error("Event introuvable");
+            throw createError("Event introuvable", 404);
         }
 
         const event = await updateEventNameById(eventId, newName);
 
         if (!event) {
-            throw new Error("Erreur lors de la mise a jour de l'événement.");
+            throw createError("Erreur lors de la mise a jour de l'événement.", 500);
         }
 
         return event;

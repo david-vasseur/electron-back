@@ -48,7 +48,7 @@ export const userLoginController = async (req, res) => {
 
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Erreur serveur' });
+        next(error);
     }
 };
 
