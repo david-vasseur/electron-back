@@ -6,7 +6,7 @@ export const userLoginSchema = Joi.object({
 });
 
 export const guestLoginSchema = Joi.object({
-    guestpass: Joi.string().min(12).max(12).required()
+    guestpass: Joi.string().min(12).max(18).required()
 });
 
 export const userRegisterSchema = Joi.object({
