@@ -19,6 +19,8 @@ export const userLoginController = async (req, res, next) => {
         const { email, password } = req.body;
 
         const user = await userLoginService(email, password);
+        console.log(user);
+        
 
         const token = jwt.sign(
             { id: user.id, name: user.name, email: user.email, role: "user" },
