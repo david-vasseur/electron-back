@@ -39,7 +39,7 @@ export const userLoginController = async (req, res, next) => {
             message: "Connexion réussie",
             user: {
                 id: user.id,
-                firstName: user.firstname,
+                firstname: user.firstname,
                 name: user.name,
                 email: user.email,
                 role: "user",
@@ -90,7 +90,7 @@ export const guestLoginController = async (req, res) => {
             message: "Connexion reussi",
             user: {
                 id: user.id,
-                firstName: user.firstname,
+                firstname: user.firstname,
                 name: user.name,
                 role: "guest",
                 events: user.events
