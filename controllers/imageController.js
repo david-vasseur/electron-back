@@ -65,7 +65,8 @@ export const uploadImage = async (req, res) => {
         
         const { name, eventId, tags } = req.body;
         const file = req.file;
-
+        console.log(req.file);
+        
         if (!name || !eventId || !tags || !file) {
             return res.status(400).json({ message: "Champs requis manquants (name, event, tags, image) !" });
         }
