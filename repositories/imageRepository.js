@@ -34,10 +34,26 @@ export const insertImage = async (name, eventId, tags) => {
 
 /// Repository pour effacer une image en bdd ///
 
-export const deleteImageByFilename = async (filename) => {
-    await prisma.image.delete({
-        where: {
-            filename: filename,
-        },
-    });
+export const deleteImageByFilename = async (imageId) => {
+
+    return await prisma.$transaction( async (tx) => {
+        const tags = await tx.image_tag.findMany({
+            where: { image_id: imageId },
+            select: { tag_id: true }
+        });
+
+        const tagsId = tags.map(t => t.tag_id);
+
+        await tx.tag.deleteMany({
+            where: { id: { in: tagsId } }
+        });
+
+        await tx.image_tag.deleteMany({
+            where: { image_id: imageId }
+        });
+
+        return await prisma.image.delete({
+            where: { id: imageId }
+        });
+    })
 };

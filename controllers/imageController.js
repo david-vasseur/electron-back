@@ -32,9 +32,10 @@ export const getAllImagesByEvent = async (req, res) => {
             const [exists] = await file.exists(); 
             if (!exists) {
                 return {
-                name: fileName,
-                event: image.event,
-                error: 'Fichier non trouvé dans le bucket.',
+                    id: image.id,
+                    name: fileName,
+                    event: image.event,
+                    error: 'Fichier non trouvé dans le bucket.',
                 };
             }
         
@@ -44,6 +45,7 @@ export const getAllImagesByEvent = async (req, res) => {
             });
         
             return {
+                id: image.id,
                 name: fileName,
                 event: image.event,
                 url: url, 
