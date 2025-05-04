@@ -4,7 +4,7 @@ import createError from "../utils/createError.js";
 
 /// Controlleur pour recuperer toutes les images d'un event ///
 
-export const getImagesController = async (req, res) => {
+export const getImagesController = async (req, res, next) => {
     try {
 
         const { eventId } = req.params; 
@@ -30,7 +30,7 @@ export const getImagesController = async (req, res) => {
 
 /// Controlleur pour uploader une image sur GCS via multer en memory ///
 
-export const uploadImageController = async (req, res) => {
+export const uploadImageController = async (req, res, next) => {
 
     try {
         
@@ -59,7 +59,7 @@ export const uploadImageController = async (req, res) => {
 
 /// Controlleur pour delete une image ///
 
-export const deleteImageController = async (req, res) => {
+export const deleteImageController = async (req, res, next) => {
     /////////////
     /// #TODO ///
     /////////////
