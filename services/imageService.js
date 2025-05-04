@@ -2,7 +2,7 @@ import path from 'path';
 import { Storage } from '@google-cloud/storage';
 import { fileURLToPath } from 'url';
 import createError from '../utils/createError.js';
-import { deleteImageById, insertImage } from '../repositories/imageRepository.js';
+import { deleteImageById, getImagesByEvent, insertImage } from '../repositories/imageRepository.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
