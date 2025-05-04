@@ -30,11 +30,11 @@ export const insertImage = async (name, eventId, tags) => {
             }
         }
     })
-}
+};
 
 /// Repository pour effacer une image en bdd ///
 
-export const deleteImageByFilename = async (imageId) => {
+export const deleteImageById = async (imageId) => {
 
     return await prisma.$transaction( async (tx) => {
         const tags = await tx.image_tag.findMany({

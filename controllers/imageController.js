@@ -1,105 +1,66 @@
-import { getImagesByEvent, insertImage } from "../repositories/imageRepository.js";
-import path from 'path';
-import { Storage } from '@google-cloud/storage';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const storage = new Storage({
-    keyFilename: path.join(__dirname, '../gcs/electron-photo-1de49ac60352.json'),
-  });
-
-const bucketName = 'electron-photo-image';
-const bucket = storage.bucket(bucketName);
+import { getImagesService, uploadImageService } from "../services/imageService.js";
+import createError from "../utils/createError.js";
 
 /// Controlleur pour recuperer toutes les images d'un event ///
 
-export const getAllImagesByEvent = async (req, res) => {
+export const getImagesController = async (req, res) => {
     try {
-        const { eventId } = req.params; 
-        const images = await getImagesByEvent(eventId);
-    
-        const signedUrls = await Promise.all(images.map(async (image) => {
-            let fileName = image.name;
 
-            if (!fileName.includes('.')) {
-                fileName += '.jpeg'; 
-            }
-        
-            const file = bucket.file(fileName); 
-        
-            const [exists] = await file.exists(); 
-            if (!exists) {
-                return {
-                    id: image.id,
-                    name: fileName,
-                    event: image.event,
-                    error: 'Fichier non trouvé dans le bucket.',
-                };
-            }
-        
-            const [url] = await file.getSignedUrl({
-                action: 'read',
-                expires: Date.now() + 3600 * 1000, 
-            });
-        
-            return {
-                id: image.id,
-                name: fileName,
-                event: image.event,
-                url: url, 
-            };
-        }));
+        const { eventId } = req.params; 
+
+        if (!eventId) {
+            throw createError("Champs requis manquants !", 400);
+        }
+
+        const parsedEventId = parseInt(eventId);
+
+        const images = await getImagesService(parsedEventId);
+
+        if(!images) {
+            throw createError("Une erreur s'est produite lors de la récuperation.", 400);
+        }
     
-        res.status(200).json(signedUrls);
+        res.status(200).json(images);
+
     } catch (error) {
-        console.error("Erreur lors de la récupération des images:", error);
-        res.status(500).json({ message: "Erreur du serveur !" });
+        next(error);
     }
 };
 
 /// Controlleur pour uploader une image sur GCS via multer en memory ///
 
-export const uploadImage = async (req, res) => {
+export const uploadImageController = async (req, res) => {
 
     try {
         
-        const { name, eventId, tags } = req.body;
+        const { eventId, tags } = req.body;
         const file = req.file;
-        console.log(req.file);
         
-        if (!name || !eventId || !tags || !file) {
-            return res.status(400).json({ message: "Champs requis manquants (name, event, tags, image) !" });
+        if (!eventId || !tags || !file) {
+            throw createError("Champs requis manquants (event, tags, image) !", 400);
         }
 
         const parsedTags = JSON.parse(tags);
-        const blob = bucket.file(Date.now() + '-' + file.originalname);
-        const blobStream = blob.createWriteStream({
-            resumable: false,
-            metadata: {
-                contentType: file.mimetype,
-                metadata: {
-                    tags: parsedTags.join(',') 
-                  }
-            },
-        });
+        const parsedEventId = parseInt(eventId);
 
-        blobStream.end(file.buffer);
-  
-        blobStream.on('error', err => {
-            console.error("Erreur lors de l'upload vers GCS:", err);
-            res.status(500).json({ message: "Erreur lors de l'upload de l'image" });
-        });
-    
-        blobStream.on('finish', async () => {
-            await insertImage(blob.name, parseInt(eventId), tags)
-            res.status(201).json({ message: "L'image a bien été uploadé!" })
-        })
-        
+        const uploadedImage = await uploadImageService(file, parsedEventId, parsedTags);
+
+        if (!uploadedImage) {
+            throw createError("Une erreur s'est produite lors de l'upload", 400);
+        }
+
+        res.status(201).json({ message: "L'image a bien été uploadé!" })
 
     } catch (error) {
-        console.error("Erreur lors de la creation de l'image:", error);
-        res.status(500).json({ message: "Erreur du serveur !" });
+        next(error);
     }
-}
+};
+
+/// Controlleur pour delete une image ///
+
+export const deleteImageController = async (req, res) => {
+    /////////////
+    /// #TODO ///
+    /////////////
+};
