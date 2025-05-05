@@ -77,8 +77,12 @@ export const deleteImageController = async (req, res, next) => {
         }
 
         const parsedImageId = parseInt(imageId);
+        const name = imageName.split(".")[0];
 
-        const deletedImage = await deleteImageService(imageName, parsedImageId);
+        console.log(name);
+        
+
+        const deletedImage = await deleteImageService(name, parsedImageId);
 
         if (!deletedImage) {
             throw createError("Erreur lors de la suppression de l'image", 400);
