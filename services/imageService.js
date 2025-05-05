@@ -35,7 +35,7 @@ export const deleteImageService = async (fileName, imageId) => {
 
 /// Service pour upload une image ///
 
-export const uploadImageService = async (eventId, tags, file) => {
+export const uploadImageService = async (file, eventId, tags) => {
 
     try {
         const blob = bucket.file(Date.now() + '-' + file.originalname);
