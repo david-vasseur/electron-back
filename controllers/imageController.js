@@ -89,5 +89,4 @@ export const deleteImageController = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-
 };

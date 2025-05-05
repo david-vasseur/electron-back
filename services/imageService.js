@@ -28,6 +28,8 @@ export const deleteImageService = async (imageName, imageId) => {
 
         await bucket.file(imageName).delete();
 
+        return deletedImage;
+
     } catch (error) {
         throw error
     }
