@@ -67,7 +67,7 @@ export const deleteImageController = async (req, res, next) => {
     try {
 
         const { imageId } = req.params;
-        const { imageName } = req.body;
+        const { imageName } = req.query;
 
         console.log(imageId, imageName);
         
