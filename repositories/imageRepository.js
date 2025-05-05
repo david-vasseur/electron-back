@@ -17,9 +17,9 @@ export const insertImage = async (name, eventId, tags) => {
     return await prisma.image.create({
         data: {
             name,
-            event_id: parseInt(eventId),
+            event_id: eventId,
             image_tag: {
-                create: JSON.parse(tags).map(tagName => ({
+                create: tags.map(tagName => ({
                     tag: {
                         connectOrCreate: {
                             where: { name: tagName },
