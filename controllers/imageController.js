@@ -1,5 +1,5 @@
 
-import { getImagesService, uploadImageService } from "../services/imageService.js";
+import { deleteImageService, getImagesService, uploadImageService } from "../services/imageService.js";
 import createError from "../utils/createError.js";
 
 /// Controlleur pour recuperer toutes les images d'un event ///
@@ -37,6 +37,9 @@ export const uploadImageController = async (req, res, next) => {
         const { eventId, tags } = req.body;
         const file = req.file;
         
+        console.log(tags);
+        
+
         if (!eventId || !tags || !file) {
             throw createError("Champs requis manquants (event, tags, image) !", 400);
         }
@@ -50,7 +53,7 @@ export const uploadImageController = async (req, res, next) => {
             throw createError("Une erreur s'est produite lors de l'upload", 400);
         }
 
-        res.status(201).json({ message: "L'image a bien été uploadé!" })
+        res.status(201).json({ message: "L'image a bien été uploadé!" });
 
     } catch (error) {
         next(error);
@@ -60,7 +63,31 @@ export const uploadImageController = async (req, res, next) => {
 /// Controlleur pour delete une image ///
 
 export const deleteImageController = async (req, res, next) => {
-    /////////////
-    /// #TODO ///
-    /////////////
+
+    try {
+
+        const { imageId } = req.params;
+        const { imageName } = req.body;
+
+        console.log(imageId, imageName);
+        
+
+        if (!imageName || !imageId) {
+            throw createError("Champs requis manquants !", 400);
+        }
+
+        const parsedImageId = parseInt(imageId);
+
+        const deletedImage = await deleteImageService(imageName, parsedImageId);
+
+        if (!deletedImage) {
+            throw createError("Erreur lors de la suppression de l'image", 400);
+        }
+
+        res.status(201).json({ message: "L'image a bien été supprimer" });
+        
+    } catch (error) {
+        next(error);
+    }
+
 };
