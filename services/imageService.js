@@ -16,7 +16,7 @@ const bucket = storage.bucket(bucketName);
 
 /// Service pour delete une image ///
 
-export const deleteImageService = async (fileName, imageId) => {
+export const deleteImageService = async (imageName, imageId) => {
 
     try {
 
@@ -26,7 +26,7 @@ export const deleteImageService = async (fileName, imageId) => {
             throw createError("Erreur lors de la suppression de l'image", 405);
         }
 
-        await bucket.file(fileName).delete();
+        await bucket.file(imageName).delete();
 
     } catch (error) {
         throw error
