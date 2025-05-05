@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 
 export const verifyToken = (req, res, next) => {
+    console.log("middleware JWT utiliser");
+    
     // const token = req.headers['authorization']?.split(' ')[1]; 
     const token = req.cookies.token;
 
