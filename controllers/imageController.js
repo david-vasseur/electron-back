@@ -76,10 +76,7 @@ export const deleteImageController = async (req, res, next) => {
             throw createError("Champs requis manquants !", 400);
         }
 
-        const parsedImageId = parseInt(imageId);
-
-        console.log(name);
-        
+        const parsedImageId = parseInt(imageId);        
 
         const deletedImage = await deleteImageService(imageName, parsedImageId);
 
