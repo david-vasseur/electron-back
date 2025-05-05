@@ -9,6 +9,6 @@ const router = Router();
 
 router.get('/images/:eventId', verifyToken, getImagesController);
 router.post('/image', verifyToken, permissionMiddleware, upload.single('image'), uploadImageController);
-router.delete('/image/:id', verifyToken, permissionMiddleware, deleteImageController);
+router.delete('/image/:imageId', verifyToken, permissionMiddleware, deleteImageController);
 
 export default router;
