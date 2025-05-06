@@ -128,7 +128,7 @@ export const getImagesService = async (eventId) => {
 export const getImagesByTagService = async (tagName, userId, userRole) => {
     
     try {
-        const images = getImagesByTag(tagName, userId, userRole); 
+        const images = await getImagesByTag(tagName, userId, userRole); 
         
         if (!images) {
             throw createError("Erreur de récuperation serveur", 400);
