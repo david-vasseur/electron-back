@@ -22,7 +22,9 @@ export const getImagesByTag = async (tagName, userId, userRole) => {
             image_tag: {
                 some: {
                     tag: {
-                        name: tagName
+                        name: {
+                            equals: tagName
+                        }
                     }
                 }
             },
