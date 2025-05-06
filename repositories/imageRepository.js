@@ -11,6 +11,47 @@ export const getImagesByEvent = async (eventId) => {
     return images;
 }
 
+/// Repository pour recuperer les images d'un tag ///
+
+export const getImagesByTag = async (tagName, userId, userRole) => {
+
+    const isGuest = userRole === "guest";
+
+    const images = await prisma.image.findMany({
+        where: {
+            image_tag: {
+                some: {
+                    tag: {
+                        name: tagName
+                    }
+                }
+            },
+            event: {
+                user_id: userId
+            }
+        },
+        include: {
+            event: true,
+            image_tag: {
+                include: {
+                    tag: true
+                }
+            }
+        }
+    });
+
+    if (!images) {
+        return [];
+    }
+
+    if (!isGuest) {
+        return images;
+    } else {
+        const guestImages = images.filter(image => image.event.public === true);
+        return guestImages;
+    }
+}
+
 /// Repository pour ajouter une image en bdd avec ses tags ///
 
 export const insertImage = async (name, eventId, tags) => {

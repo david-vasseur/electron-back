@@ -119,6 +119,51 @@ export const getImagesService = async (eventId) => {
         return signedUrls;
 
     } catch (error) {
-        throw error
+        throw error;
+    }
+};
+
+/// Service pour recupere les images par rapport a un tag ///
+
+export const getImagesByTagService = async (tagName, userId, userRole) => {
+    
+    try {
+        const images = getImagesByTag(tagName, userId, userRole); 
+        
+        if (!images) {
+            throw createError("Erreur de récuperation serveur", 400);
+        }
+
+        const signedUrls = await Promise.all(images.map(async (image) => {
+            let fileName = image.name;
+        
+            const file = bucket.file(fileName); 
+        
+            const [exists] = await file.exists(); 
+            if (!exists) {
+                return {
+                    id: image.id,
+                    name: fileName,
+                    event: image.event,
+                    error: 'Fichier non trouvé dans le bucket.',
+                };
+            };
+        
+            const [url] = await file.getSignedUrl({
+                action: 'read',
+                expires: Date.now() + 3600 * 1000, 
+            });
+        
+            return {
+                id: image.id,
+                name: fileName,
+                event: image.event,
+                url: url, 
+            };
+        }));
+        
+        return signedUrls;
+    } catch (error) {
+        throw error;
     }
 };

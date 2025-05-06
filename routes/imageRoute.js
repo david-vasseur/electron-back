@@ -8,6 +8,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 const router = Router();
 
 router.get('/images/:eventId', verifyToken, getImagesController);
+router.get('/tag/:tagName', );
 router.post('/image', verifyToken, permissionMiddleware, upload.single('image'), uploadImageController);
 router.delete('/image/:imageId', verifyToken, permissionMiddleware, deleteImageController);
 

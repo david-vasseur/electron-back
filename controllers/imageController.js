@@ -1,5 +1,5 @@
 
-import { deleteImageService, getImagesService, uploadImageService } from "../services/imageService.js";
+import { deleteImageService, getImagesByTagService, getImagesService, uploadImageService } from "../services/imageService.js";
 import createError from "../utils/createError.js";
 
 /// Controlleur pour recuperer toutes les images d'un event ///
@@ -27,6 +27,28 @@ export const getImagesController = async (req, res, next) => {
         next(error);
     }
 };
+
+/// Controlleur pour recuperer les images Par rapport a un tag ///
+
+export const getImagesByTagController = async (req, res, next) => {
+    try {
+
+        const tagName = req.params;
+        const userId = req.user.id;
+        const userRole = req.user.role;
+
+        const images = await getImagesByTagService(tagName, userId, userRole);
+
+        if(!images) {
+            throw createError("Une erreur s'est produite lors de la récuperation.", 400);
+        }
+
+        res.status(200).json(images);
+        
+    } catch (error) {
+        next(error)
+    }
+}
 
 /// Controlleur pour uploader une image sur GCS via multer en memory ///
 
