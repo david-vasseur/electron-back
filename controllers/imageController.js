@@ -33,7 +33,7 @@ export const getImagesController = async (req, res, next) => {
 export const getImagesByTagController = async (req, res, next) => {
     try {
 
-        const tagName = req.params;
+        const tagName = req.params.tagName;
         const userId = req.user.id;
         const userRole = req.user.role;
 
