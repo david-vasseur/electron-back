@@ -3,7 +3,7 @@ import { deleteEventService, newEventService, updateEventAccessService, updateEv
 
 // Controller pour creer un event ///
 
-export const newEventController = async (req, res) => {
+export const newEventController = async (req, res, next) => {
 
     try {
 
@@ -22,13 +22,13 @@ export const newEventController = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'Erreur serveur' });
+        next(error);
     }
 };
 
 /// Controller pour supprimer un event ///
 
-export const deleteEventController = async (req, res) => {
+export const deleteEventController = async (req, res, next) => {
 
     try {
 
@@ -47,7 +47,7 @@ export const deleteEventController = async (req, res) => {
         
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'Erreur serveur' });
+        next(error);
     }
 };
 
@@ -79,7 +79,7 @@ export const updateEventNameController = async (req, res) => {
 
 /// Controller pour mettre a jour public/private d'un event ///
 
-export const updateEventAccessController = async (req, res) => {
+export const updateEventAccessController = async (req, res, next) => {
 
     try {
 
@@ -95,11 +95,11 @@ export const updateEventAccessController = async (req, res) => {
         
         const event = await updateEventAccessService(parsedEventId);
         
-        res.status(201).json({ message: `Votre Album est maintenant ${event.public === true ? "publique" : "privé"}`, event });
+        res.status(201).json({ message: `Votre album est maintenant ${event.public === true ? "publique" : "privé"}`, event });
 
 
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'Erreur serveur' });
+        next(error);
     }
 };
