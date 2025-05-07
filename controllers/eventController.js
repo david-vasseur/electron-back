@@ -94,7 +94,9 @@ export const updateEventAccessController = async (req, res) => {
         const parsedEventId = parseInt(eventId);
         
         const event = await updateEventAccessService(parsedEventId);
-        res.status(201).json({ message: "Événement modifié avec succès", event })
+        
+        res.status(201).json({ message: `Votre Album est maintenant ${event.public === true ? "publique" : "privé"}`, event });
+
 
     } catch (error) {
         console.log(error);
