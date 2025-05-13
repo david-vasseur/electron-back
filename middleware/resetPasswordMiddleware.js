@@ -49,7 +49,7 @@ export const restPasswordForm = async (req, res) => {
         </head>
         <body style="font-family: Arial, sans-serif; background: linear-gradient(45deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(83, 237, 232, 1) 100%); text-align: center; padding: 50px;">
             <h1 style="color: #28a745;">Reinitialisez votre mot de passe</h1>
-            <form>
+            <form method="POST" action="/api/resetPassword">
                 <input name="password" type="password" placeholder="Entrez votre mot de passe" required />
                 <input name="confirmPassword" type="password" placeholder="Confirmez le mot de passe" required />
                 <input type="hidden" name="token" value="${token}" />
