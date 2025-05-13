@@ -32,11 +32,11 @@ export const restPasswordForm = async (req, res) => {
                     margin: 10px;
                     border: none;
                     border-radius: 35px;
+                    box-shadow: 5px 5px 15px rgba(44, 44, 44, 0.815);
                 }
                 button {
                     border: solid 2px rgba(72, 123, 155, 1);
                     background: rgba(42, 123, 155, 1);
-                    box-shadow: 5px 5px 15px rgba(44, 44, 44, 0.815);
                     color: white;
                     cursor: pointer;
                 }
