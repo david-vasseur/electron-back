@@ -135,9 +135,9 @@ export const sendResetPassword = async (req, res, next) => {
 
     try {
         
-        const email = await sendResetPasswordEmailService(email);
+        const sendEmail = await sendResetPasswordEmailService(email);
 
-        if (!email) {
+        if (!sendEmail) {
             createError("Erreur de récuperation", 404);
         }
 
