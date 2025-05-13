@@ -9,7 +9,26 @@ export const restPasswordForm = async (req, res) => {
     res.send(`
       <html>
         <head>
-          <title>Remise à zero du mot de passe</title>
+            <title>Remise à zero du mot de passe</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background: linear-gradient(45deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(83, 237, 232, 1) 100%);
+                    text-align: center;
+                    padding: 50px;
+                }
+                input, button {
+                    padding: 10px;
+                    margin: 10px;
+                    border: none;
+                    border-radius: 5px;
+                }
+                button {
+                    background-color: #28a745;
+                    color: white;
+                    cursor: pointer;
+                }
+            </style>
         </head>
         <body style="font-family: Arial, sans-serif; background: linear-gradient(45deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(83, 237, 232, 1) 100%); text-align: center; padding: 50px;">
             <h1 style="color: #28a745;">Reinitialisez votre mot de passe</h1>
