@@ -126,3 +126,17 @@ export const userRegisterController = async (req, res) => {
         res.status(500).json({ message: 'Erreur serveur' });
     }
 };
+
+/// controlleur pour envoyer un mail de changement de mot de passe ///
+
+export const sendResetPassword = async (req, res, next) => {
+    const { email } = req.body;
+
+    try {
+        
+        
+
+    } catch (error) {
+        next(error);
+    }
+};

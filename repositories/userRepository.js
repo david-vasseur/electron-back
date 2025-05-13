@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import { hashPassword } from '../utils/hashPassword.js';
 
 const prisma = new PrismaClient();
 
@@ -124,6 +125,17 @@ export const verifiedUser = async (email) => {
         where: { email },
         data: {
             isverified: true
+        }
+    })
+};
+
+/// Fonction pour mettre a jour le mot de passe ///
+
+export const updatePassword = async (email, newPassword) => {
+    return await prisma.user.update({
+        where: { email },
+        data: {
+            password: await hashPassword(newPassword)
         }
     })
 };
