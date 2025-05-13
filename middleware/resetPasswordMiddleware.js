@@ -42,7 +42,7 @@ export const restPasswordForm = async (req, res) => {
                     height: 2.5rem;
                     background: rgba(42, 123, 155, 1);
                     color: white;
-                    font-weight: bold
+                    font-weight: bold;
                     cursor: pointer;
                 }
             </style>
