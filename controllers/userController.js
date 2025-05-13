@@ -148,3 +148,11 @@ export const sendResetPassword = async (req, res, next) => {
         next(error);
     }
 };
+
+/// controlleur pour valider le nouveau mot de passe ///
+
+export const updatePasswordController = async (req, res, next) => {
+    const { password, confirmPassword, token } = req.body;
+    console.log(password, confirmPassword, token);
+    
+}

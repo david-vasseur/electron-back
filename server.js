@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 import { verifyUser } from './middleware/verifyMiddleware.js';
 import errorMiddleware from './middleware/errorMiddleware.js';
 import { restPasswordForm } from './middleware/resetPasswordMiddleware.js';
+import { updatePasswordController } from './controllers/userController.js';
 
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.get('/api/verify', cors(), verifyUser);
 app.get('/api/reset', cors(), restPasswordForm);
+app.get('/api/resetPassword', cors(), updatePasswordController);
 
 app.use(cors({
   origin: false, 
