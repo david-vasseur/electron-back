@@ -85,7 +85,10 @@ export const userRegisterService = async (email, password, firstname, name) => {
 
 /// Service pour mettre a jour le mot de passe ///
 
-export const updatePasswordService = async (email, newPassword) => {
+export const updatePasswordService = async (token, newPassword) => {
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const email = decoded.email;
 
     try {
 

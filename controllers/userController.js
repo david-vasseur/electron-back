@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { guestLoginSchema, userLoginSchema, userRegisterSchema } from "../schemaValidation/userSchema.js";
-import { guestLoginService, sendResetPasswordEmailService, userLoginService, userRegisterService } from "../services/userService.js";
+import { guestLoginService, sendResetPasswordEmailService, updatePasswordService, userLoginService, userRegisterService } from "../services/userService.js";
 import createError from '../utils/createError.js';
 
 
@@ -154,5 +154,33 @@ export const sendResetPassword = async (req, res, next) => {
 export const updatePasswordController = async (req, res, next) => {
     const { password, confirmPassword, token } = req.body;
     console.log(password, confirmPassword, token);
+
+    try {
+
+        if (!token || !password || !confirmPassword || password !== confirmPassword) {
+            createError("Une erreur est survenue", 403);
+        }
+
+        const newPassword = await updatePasswordService(token, password);
+
+        if (!newPassword) {
+            createError("Une erreur est survenue", 403);
+        }
+
+        res.status(201).send(`
+            <html>
+                <head>
+                    <title>Email Vérifié</title>
+                </head>
+                <body style="font-family: Arial, sans-serif; background: linear-gradient(45deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(83, 237, 232, 1) 100%); text-align: center; padding: 50px;">
+                    <h1 style="color: #28a745;">Mot de passe modifié avec succès !</h1>
+                    <h2 style="font-size: 20px; color: #333333;">Vous pouvez maintenant utilisier votre nouveau mot de passe.</h2>
+                </body>
+            </html>
+            `)
+        
+    } catch (error) {
+        next(error)
+    }
     
 }
