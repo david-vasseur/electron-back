@@ -18,6 +18,9 @@ export const restPasswordForm = async (req, res) => {
                     padding: 50px;
                 }
                 form {
+                    padding: 2rem;
+                    border: solid 2px rgba(42, 123, 155, 1);
+                    border-radius: 35px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -31,7 +34,9 @@ export const restPasswordForm = async (req, res) => {
                     border-radius: 35px;
                 }
                 button {
-                    background-color: #28a745;
+                    border: solid 2px rgba(72, 123, 155, 1);
+                    background: rgba(42, 123, 155, 1);
+                    box-shadow: 5px 5px 15px rgba(44, 44, 44, 0.815);
                     color: white;
                     cursor: pointer;
                 }
