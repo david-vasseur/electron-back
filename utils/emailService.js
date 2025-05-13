@@ -28,7 +28,7 @@ export const sendConfirmationEmail = async (to, token) => {
 };
 
 export const sendResetPasswordEmail = async (to, token) => {
-  const changePasswordUrl = `${process.env.RESET_PASSWORD_URL}/verify?token=${token}`;
+  const changePasswordUrl = `${process.env.RESET_PASSWORD_URL}/reset?token=${token}`;
 
   const mailOptions = {
     from: `"PhotoShare" <${process.env.EMAIL_USER}>`,
