@@ -16,6 +16,7 @@ dotenv.config();
 const app = express();
 const port = 3001;
 
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.json());
 
