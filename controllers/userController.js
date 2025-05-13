@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { guestLoginSchema, userLoginSchema, userRegisterSchema } from "../schemaValidation/userSchema.js";
-import { guestLoginService, userLoginService, userRegisterService } from "../services/userService.js";
+import { guestLoginService, sendResetPasswordEmailService, userLoginService, userRegisterService } from "../services/userService.js";
+import createError from '../utils/createError.js';
 
 
 /// Controlleur d'authentification ///
@@ -134,7 +135,14 @@ export const sendResetPassword = async (req, res, next) => {
 
     try {
         
-        
+        const email = await sendResetPasswordEmailService(email);
+
+        if (!email) {
+            createError("Erreur de récuperation", 404);
+        }
+
+        res.status(200).json({ message: "Email envoyé avec succés" });
+
 
     } catch (error) {
         next(error);
