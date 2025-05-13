@@ -18,11 +18,11 @@ export const restPasswordForm = async (req, res) => {
                     padding: 50px;
                 }
                 form {
-                    display: "flex";
-                    flex-direction: "column";
+                    display: flex;
+                    flex-direction: column;
                     justify-content: center;
 	                align-items: center;
-                    gap: "1rem";
+                    gap: 1rem;
                 }
                 input, button {
                     padding: 10px;
