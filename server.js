@@ -21,7 +21,7 @@ app.use(express.json());
 
 app.get('/api/verify', cors(), verifyUser);
 app.get('/api/reset', cors(), restPasswordForm);
-app.get('/api/resetPassword', cors(), updatePasswordController);
+app.post('/api/resetPassword', cors(), updatePasswordController);
 
 app.use(cors({
   origin: false, 
