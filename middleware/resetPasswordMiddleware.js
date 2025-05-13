@@ -27,18 +27,17 @@ export const restPasswordForm = async (req, res) => {
                 input, button {
                     padding: 10px;
                     margin: 10px;
-                    border: none;
+                    border: solid 3px rgba(72, 123, 155, 1);
                     border-radius: 35px;
                     box-shadow: 5px 5px 15px rgba(44, 44, 44, 0.815);
                 }
                 input {
-                    width: 10rem;
-                    height: 2.5rem;
+                    width: 20rem;
+                    height: 3.5rem;
                 }
                 button {
                     width: 5rem;
                     height: 2.5rem;
-                    border: solid 2px rgba(72, 123, 155, 1);
                     background: rgba(42, 123, 155, 1);
                     color: white;
                     cursor: pointer;
