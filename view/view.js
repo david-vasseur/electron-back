@@ -23,6 +23,6 @@ export const resetPasswordVanilla = () => {
 
     password.addEventListener('input', () => {
         const error = validations();
-        passwordError.textContent = error[0] || "";
+        passwordError.textContent = error.errorMessages[0] || "";
     })
 }
