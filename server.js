@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import userRoute from './routes/userRoutes.js';
 import imageRoute from './routes/imageRoute.js';
 import eventRoute from './routes/eventRoute.js';
