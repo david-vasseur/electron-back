@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import userRoute from './routes/userRoutes.js';
 import imageRoute from './routes/imageRoute.js';
 import eventRoute from './routes/eventRoute.js';
@@ -16,6 +17,8 @@ dotenv.config();
 
 const app = express();
 const port = 3001;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(express.static(path.join(__dirname, 'view')));
 app.use(express.urlencoded({ extended: true }));
