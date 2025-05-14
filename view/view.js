@@ -20,7 +20,7 @@ export const resetPasswordVanilla = () => {
             errorMessages.push('Le mot de passe doit contenir un caractère spéciale: ! + - ? * $ ^ % / @ _ ( ) # & ~');
         }
 
-        errorMessages.length > 0 ? button.disable = true : button.disable = false;
+        errorMessages.length > 0 ? button.disabled = true : button.disabled = false;
 
         return errorMessages.length > 0 ? errorMessages[0] : null;
     }
@@ -33,7 +33,7 @@ export const resetPasswordVanilla = () => {
             errorMessage = "Les deux mots de passe doivent être identiques"
         }
 
-        errorMessage !== null ? button.disable = true : button.disable = false;
+        errorMessage !== null ? button.disabled = true : button.disabled = false;
 
         return errorMessage !== null ? errorMessage : "";
     }
