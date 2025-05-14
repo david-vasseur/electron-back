@@ -20,15 +20,7 @@ export const resetPasswordVanilla = () => {
             errorMessages.push('Le mot de passe doit contenir un caractère spéciale: ! + - ? * $ ^ % / @ _ ( ) # & ~');
         }
 
-        if (errorMessages.length > 0) {
-            button.disabled = true;
-            button.classList.add('disabled');
-        } else {
-            button.disabled = false;
-            button.classList.remove('disabled');
-        }
-
-        return errorMessages.length > 0 ? errorMessages[0] : null;
+        return errorMessages[0];
     }
 
     const samePassword = () => {
@@ -39,7 +31,14 @@ export const resetPasswordVanilla = () => {
             errorMessage = "Les deux mots de passe doivent être identiques"
         }
 
-        if (errorMessage !== null) {
+        return errorMessage;
+    }
+
+    const updateButtonState = () => {
+        const validationErrors = validations();
+        const confirmPasswordErrorMessage = samePassword();
+
+        if (validationErrors.length > 0 || confirmPasswordErrorMessage) {
             button.disabled = true;
             button.classList.add('disabled');
         } else {
@@ -47,16 +46,10 @@ export const resetPasswordVanilla = () => {
             button.classList.remove('disabled');
         }
 
-        return errorMessage !== null ? errorMessage : "";
+        passwordError.textContent = validationErrors.length > 0 ? validationErrors[0] : '';
+        confirmPasswordError.textContent = confirmPasswordErrorMessage || '';
     }
 
-    password.addEventListener('input', () => {
-        const error = validations();
-        passwordError.textContent = error || "";
-    })
-
-    confirmPassword.addEventListener('input', () => {
-        const error = samePassword();
-        confirmPasswordError.textContent = error || "";
-    })
+    password.addEventListener('input', updateButtonState)
+    confirmPassword.addEventListener('input', updateButtonState)
 };
