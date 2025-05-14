@@ -1,8 +1,10 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import { createUser, getGuestUser, getUserById, searchUserByEmail, searchUserByGuestpass, updatePassword } from "../repositories/userRepository.js";
 import { sendConfirmationEmail, sendResetPasswordEmail } from '../utils/emailService.js';
 import createError from '../utils/createError.js';
+import { blacklistJTI } from '../utils/jtiBlacklist.js';
 
 export const userLoginService = async (email, password) => {
   
@@ -89,6 +91,7 @@ export const updatePasswordService = async (token, newPassword) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const email = decoded.email;
+    const jti = decoded.jti;
 
     try {
 
@@ -100,6 +103,10 @@ export const updatePasswordService = async (token, newPassword) => {
 
         const user = updatePassword(email, newPassword);
 
+        if (!user) {
+            throw createError("Une erreur est survenue", 403);
+        }
+        await blacklistJTI(jti);
         return user;
         
     } catch (error) {
@@ -120,10 +127,15 @@ export const sendResetPasswordEmailService = async (email) => {
             throw createError("Erreur de recuperation", 403)
         };
 
+        const jti = crypto.randomUUID();
+
         const token = jwt.sign(
             { email },
             process.env.JWT_SECRET,
-            { expiresIn: "15m" }
+            { 
+                expiresIn: "15m",
+                jwtid: jti
+            }
         );
 
         const mail = await sendResetPasswordEmail(email, token);

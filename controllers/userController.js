@@ -167,6 +167,8 @@ export const updatePasswordController = async (req, res, next) => {
             createError("Une erreur est survenue", 403);
         }
 
+
+
         res.status(302).redirect('/api/reset-succes')
         
     } catch (error) {
