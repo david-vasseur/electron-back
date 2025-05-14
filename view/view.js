@@ -50,6 +50,12 @@ export const resetPasswordVanilla = () => {
         confirmPasswordError.textContent = confirmPasswordErrorMessage || '';
     }
 
-    password.addEventListener('input', updateButtonState)
-    confirmPassword.addEventListener('input', updateButtonState)
+    password.addEventListener('input', updateButtonState);
+    confirmPassword.addEventListener('input', updateButtonState);
+
+    window.addEventListener('pageshow', (e) => {
+        if (e.persisted || window.performance && performance.getEntriesByType("navigation")[0]?.type === "back_forward") {
+            window.location.reload();
+        }
+    })
 };
