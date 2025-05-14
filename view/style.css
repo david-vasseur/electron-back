@@ -29,6 +29,7 @@ input {
     height: 2rem;
     font-weight: bold;
     color: rgba(87, 199, 133, 1);
+    font-size: 1.6rem;
 }
 button {
     margin-top: 1rem;
