@@ -1,4 +1,4 @@
-import redis from "../redis/redisClient";
+import redis from "../redis/redisClient.js";
 
 
 export const blacklistJTI = async (jti, ttl = 900) => {
