@@ -18,11 +18,11 @@ export const resetPasswordVanilla = () => {
         if (value.match(/[!+-?*$^%\/@_()#&~]/gm) == null) {
             errorMessages.push('Le mot de passe doit contenir un caractère spéciale: ! + - ? * $ ^ % / @ _ ( ) # & ~');
         }
-        return errorMessages.length > 0 ? errorMessages.join(", ") : null;
+        return errorMessages.length > 0 ? errorMessages[0] : null;
     }
 
     password.addEventListener('input', () => {
         const error = validations();
-        passwordError.textContent = error.errorMessages[0] || "";
+        passwordError.textContent = error || "";
     })
 }
