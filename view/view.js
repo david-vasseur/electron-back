@@ -27,7 +27,7 @@ export const resetPasswordVanilla = () => {
 
         let errorMessage = null;
 
-        if (password.value !== confirmPassword.value && confirmPassword.focus()) {
+        if (confirmPassword !== "" && password.value !== confirmPassword.value) {
             errorMessage = "Les deux mots de passe doivent être identiques"
         }
 
