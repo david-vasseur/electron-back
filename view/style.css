@@ -65,5 +65,5 @@ button {
     background-color: darkgrey;
     opacity: 0.5;
     color: rgb(32, 32, 32);
-    cursor: none;
+    cursor: default;
 }
