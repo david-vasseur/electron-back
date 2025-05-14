@@ -167,21 +167,9 @@ export const updatePasswordController = async (req, res, next) => {
             createError("Une erreur est survenue", 403);
         }
 
-        res.status(201).send(`
-            <html>
-                <head>
-                    <title>Email Vérifié</title>
-                    <meta http-equiv="Cache-Control" content="no-store" />
-                </head>
-                <body style="font-family: Arial, sans-serif; background: linear-gradient(45deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(83, 237, 232, 1) 100%); text-align: center; padding: 50px;">
-                    <h1 style="color: #28a745;">Mot de passe modifié avec succès !</h1>
-                    <h2 style="font-size: 20px; color: #333333;">Vous pouvez maintenant utilisier votre nouveau mot de passe.</h2>
-                </body>
-            </html>
-            `)
+        res.status(302).redirect('/api/reset-succes')
         
     } catch (error) {
         next(error)
     }
-    
-}
+};

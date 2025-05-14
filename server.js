@@ -31,6 +31,7 @@ app.set('view engine', 'ejs');
 app.get('/api/verify', cors(), verifyUser);
 app.get('/api/reset', cors(), restPasswordForm);
 app.post('/api/resetPassword', cors(), updatePasswordController);
+app.get('/api/reset-succes', cors(), (req, res) => { res.render('/succes') });
 
 app.use(cors({
   origin: false, 
