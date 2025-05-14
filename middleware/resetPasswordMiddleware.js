@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { isJTIBlacklisted } from '../utils/jtiBlacklist';
+import { isJTIBlacklisted } from '../utils/jtiBlacklist.js';
 
 export const restPasswordForm = async (req, res) => {
     const { token } = req.query;
