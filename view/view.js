@@ -21,8 +21,24 @@ export const resetPasswordVanilla = () => {
         return errorMessages.length > 0 ? errorMessages[0] : null;
     }
 
+    const samePassword = () => {
+
+        let errorMessage = null;
+
+        if (password.value !== confirmPassword.value) {
+            errorMessage = "Les deux mots de passe doivent être identiques"
+        }
+
+        return errorMessage !== null ? "" : errorMessage;
+    }
+
     password.addEventListener('input', () => {
         const error = validations();
         passwordError.textContent = error || "";
+    })
+
+    confirmPassword.addEventListener('input', () => {
+        const error = samePassword();
+        confirmPasswordError.textContent = error || "";
     })
 }
