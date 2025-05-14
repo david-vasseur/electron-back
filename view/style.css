@@ -11,6 +11,8 @@ body {
     text-align: center;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
+    gap: 4rem;
     align-items: center;
     justify-content: center;
 }
