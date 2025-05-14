@@ -29,7 +29,7 @@ export const resetPasswordVanilla = () => {
             errorMessage = "Les deux mots de passe doivent être identiques"
         }
 
-        return errorMessage !== null ? "" : errorMessage;
+        return errorMessage !== null ? errorMessage : "";
     }
 
     password.addEventListener('input', () => {
