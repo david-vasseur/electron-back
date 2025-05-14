@@ -5,12 +5,6 @@ export const resetPasswordVanilla = () => {
     const confirmPasswordError = document.getElementById("error-confirmPassword");
     const button = document.getElementById("validate-button");
 
-    if (button.disabled) {
-        button.classList.add('disabled');
-    } else {
-        button.classList.remove('disabled');
-    }
-
     const validations = () => {
 
         const value = password.value;
@@ -26,7 +20,13 @@ export const resetPasswordVanilla = () => {
             errorMessages.push('Le mot de passe doit contenir un caractère spéciale: ! + - ? * $ ^ % / @ _ ( ) # & ~');
         }
 
-        button.disabled = errorMessages.length > 0;
+        if (errorMessages.length > 0) {
+            button.disabled = true;
+            button.classList.add('disabled');
+        } else {
+            button.disabled = false;
+            button.classList.remove('disabled');
+        }
 
         return errorMessages.length > 0 ? errorMessages[0] : null;
     }
@@ -39,7 +39,13 @@ export const resetPasswordVanilla = () => {
             errorMessage = "Les deux mots de passe doivent être identiques"
         }
 
-        errorMessage !== null ? button.disabled = true : button.disabled = false;
+        if (errorMessage !== null) {
+            button.disabled = true;
+            button.classList.add('disabled');
+        } else {
+            button.disabled = false;
+            button.classList.remove('disabled');
+        }
 
         return errorMessage !== null ? errorMessage : "";
     }
