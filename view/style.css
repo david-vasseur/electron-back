@@ -22,7 +22,9 @@ input, button {
 }
 input {
     width: 20rem;
-    height: 2.5rem;
+    height: 2rem;
+    font-weight: bold;
+    color: rgba(87, 199, 133, 1);
 }
 button {
     margin-top: 1rem;
