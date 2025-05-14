@@ -7,17 +7,18 @@ export const resetPasswordVanilla = () => {
     const validations = () => {
 
         const value = password.value;
+        let errorMessages = [];
 
         if (value.length < 8) {
-            return "Le mot de passe doit contenir au moins 8 caractères";
+            errorMessages.push("Le mot de passe doit contenir au moins 8 caractères");
         }
         if (value[0] !== value[0].toUpperCase()) {
-            return "Le mot de passe doit commencer par une majuscule";
+            errorMessages.push("Le mot de passe doit commencer par une majuscule");
         }
         if (value.match(/[!+-?*$^%\/@_()#&~]/gm) == null) {
-            return 'Le mot de passe doit contenir au moins un caractère spéciale "!" "+" "-" "?" "*" "$" "^" "%" "/" "@" "_" "(" ")" "#" "&" "~"';
+            errorMessages.push('Le mot de passe doit contenir au moins un caractère spéciale "!" "+" "-" "?" "*" "$" "^" "%" "/" "@" "_" "(" ")" "#" "&" "~"');
         }
-        return null;
+        return errorMessages.length > 0 ? errorMessages.join(", ") : null;
     }
 
     password.addEventListener('input', () => {
