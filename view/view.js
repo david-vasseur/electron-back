@@ -20,7 +20,7 @@ export const resetPasswordVanilla = () => {
             errorMessages.push('Le mot de passe doit contenir un caractère spéciale: ! + - ? * $ ^ % / @ _ ( ) # & ~');
         }
 
-        return errorMessages[0];
+        return errorMessages;
     }
 
     const samePassword = () => {
