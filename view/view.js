@@ -11,7 +11,7 @@ export const resetPasswordVanilla = () => {
         if (value.length < 8) {
             return "Le mot de passe doit contenir au moins 8 caractères";
         }
-        if (value[0] !== password[0].toUpperCase()) {
+        if (value[0] !== value[0].toUpperCase()) {
             return "Le mot de passe doit commencer par une majuscule";
         }
         if (value.match(/[!+-?*$^%\/@_()#&~]/gm) == null) {
