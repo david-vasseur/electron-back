@@ -13,12 +13,16 @@ export const userLoginController = async (req, res, next) => {
         const { error } = userLoginSchema.validate(req.body);
 
         if (error) {
-            throw createError( "Email ou mot de passe invalide", 400);
+            throw createError( "Erreur de saisie", 400);
         }
 
         const { email, password } = req.body;
 
         const user = await userLoginService(email, password);
+
+        if (!user) {
+            throw createError( "Email ou mot de passe invalide", 403);
+        }
         console.log(user);
         
 
