@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { isJTIBlacklisted } from '../utils/jtiBlacklist.js';
+import createError from '../utils/createError.js';
 
-export const restPasswordForm = async (req, res) => {
+export const restPasswordForm = async (req, res, next) => {
     const { token } = req.query;
     try {
 
@@ -11,7 +12,7 @@ export const restPasswordForm = async (req, res) => {
         const isBlacklisted = await isJTIBlacklisted(jti);
 
         if (isBlacklisted) {
-            return res.status(400).render('expired');
+            throw createError("Token déjà utilisé", 400);
         }
 
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
@@ -21,6 +22,6 @@ export const restPasswordForm = async (req, res) => {
         return res.render('resetPassword', { token });
 
     } catch (error) {
-        return res.status(400).render('expired');
+        next(error);
     }
 };
