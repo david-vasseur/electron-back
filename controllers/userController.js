@@ -169,7 +169,7 @@ export const updatePasswordController = async (req, res, next) => {
 
 
 
-        res.status(302).redirect('/api/reset-succes')
+        res.status(302).redirect('/reset-succes')
         
     } catch (error) {
         next(error)
