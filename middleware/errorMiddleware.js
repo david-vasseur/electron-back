@@ -4,7 +4,12 @@ const errorMiddleware = (err, req, res, next) => {
     const status = err.statusCode || 500;
     const message = err.isOperational ? err.message : "Une erreur interne est survenue.";
 
-    res.status(status).json({ message });
+    if (req.originalUrl.startsWith("/api")) {
+        return res.status(status).json({ message });
+    }
+
+    res.status(status).render("expired", { message });
+    
 };
 
 export default errorMiddleware;

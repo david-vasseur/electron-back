@@ -28,10 +28,10 @@ app.use(express.json());
 app.set('views', './view');
 app.set('view engine', 'ejs');
 
-app.get('/api/verify', cors(), verifyUser);
-app.get('/api/reset', cors(), restPasswordForm);
-app.post('/api/reset', cors(), updatePasswordController);
-app.get('/api/reset-succes', cors(), (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.render('resetSuccess') });
+app.get('/verify', cors(), verifyUser);
+app.get('/reset', cors(), restPasswordForm);
+app.post('/reset', cors(), updatePasswordController);
+app.get('/reset-succes', cors(), (req, res) => { res.setHeader('Cache-Control', 'no-store'); res.render('resetSuccess') });
 
 app.use(cors({
   origin: false, 

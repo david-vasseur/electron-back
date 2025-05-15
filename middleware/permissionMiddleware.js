@@ -1,9 +1,17 @@
+import createError from "../utils/createError";
+
 export const permissionMiddleware = (req, res, next) => {
-    console.log("middleware PERMISSION utiliser");
-    if (req.user?.role !== "user") {
-        res.status(403).json({ message: "Acces non autorisé" });
-        console.log("PAS AUTHORISE");
-        return;
+    
+    try {
+        if (req.user?.role !== "user") {
+
+            throw createError("Accès non autorisé", 403);
+
+        }
+
+        next()
+        
+    } catch (error) {
+        next(error)
     }
-    next()
 };
