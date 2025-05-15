@@ -16,7 +16,13 @@ export const resetPasswordVanilla = () => {
         if (value.length < 8) {
             errorMessages.push("Le mot de passe doit contenir au moins 8 caractères");
         }
-        if (value.match(/[!+-?*$^%\/@_()#&~]/gm) == null) {
+        if (value.length > 20) {
+            errorMessages.push("Le mot de passe ne doit pas contenir plus de 20 caractères");
+        }
+        if (value.match(/^\S*$/) == null) {
+            errorMessages.push("Le mot de passe ne doit pas contenir d'espaces");
+        }
+        if (value.match(/[!+-?*$^%\/@_()#&~]/) == null) {
             errorMessages.push('Le mot de passe doit contenir un caractère spéciale: ! + - ? * $ ^ % / @ _ ( ) # & ~');
         }
 
