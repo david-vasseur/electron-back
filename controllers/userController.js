@@ -13,8 +13,7 @@ export const userLoginController = async (req, res, next) => {
         const { error } = userLoginSchema.validate(req.body);
 
         if (error) {
-            res.status(400).json({ message: "Email ou mot de passe invalide" });
-            return;
+            throw createError( "Email ou mot de passe invalide", 400);
         }
 
         const { email, password } = req.body;
@@ -50,22 +49,20 @@ export const userLoginController = async (req, res, next) => {
         });
 
     } catch (error) {
-        console.error(error);
         next(error);
     }
 };
 
 /// controlleur pour s'authentifier en guest ///
 
-export const guestLoginController = async (req, res) => {
+export const guestLoginController = async (req, res, next) => {
 
     try {
 
         const { error } = guestLoginSchema.validate(req.body);
 
         if (error) {
-            res.status(400).json({ message: "Mot de passe invalide" });
-            return;
+            throw createError("Mot de passe invalide", 400);
         }
 
         const { guestpass } = req.body;
@@ -99,14 +96,13 @@ export const guestLoginController = async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Erreur serveur' });
+        next(error);
     }
-}
+};
 
 /// Controlleur pour la création d'un compte ///
 
-export const userRegisterController = async (req, res) => {
+export const userRegisterController = async (req, res, next) => {
     const { email, password, firstname, name } = req.body;
 
     try {
@@ -114,17 +110,15 @@ export const userRegisterController = async (req, res) => {
         const { error } = userRegisterSchema.validate(req.body);
 
         if (error) {
-            res.status(400).json({ message: "Informations non conformes" });
-            return;
+            throw createError("Informations non conformes", 400);
         }
 
         const user = await userRegisterService(email, password, firstname, name);
 
-        res.status(201).json({ message: 'Vous êtes bien enregistré !' });
+        res.status(201).json({ message: 'Vous êtes bien enregistré ! Un mail de validation vous a été envoyé.' });
         
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Erreur serveur' });
+        next(error);
     }
 };
 
@@ -153,7 +147,6 @@ export const sendResetPassword = async (req, res, next) => {
 
 export const updatePasswordController = async (req, res, next) => {
     const { password, confirmPassword, token } = req.body;
-    console.log(password, confirmPassword, token);
 
     try {
 
@@ -166,8 +159,6 @@ export const updatePasswordController = async (req, res, next) => {
         if (!newPassword) {
             createError("Une erreur est survenue", 403);
         }
-
-
 
         res.status(302).redirect('/reset-succes')
         

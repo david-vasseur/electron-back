@@ -1,5 +1,6 @@
 import { deleteEventSchema, newEventSchema, updateNameSchema } from "../schemaValidation/eventSchema.js";
 import { deleteEventService, newEventService, updateEventAccessService, updateEventNameService } from "../services/eventService.js";
+import createError from "../utils/createError.js";
 
 // Controller pour creer un event ///
 
@@ -9,19 +10,22 @@ export const newEventController = async (req, res, next) => {
 
         const { error } = newEventSchema.validate(req.body);
 
-            if (error) {
-                res.status(400).json({ message: "Erreur de données" });
-                return;
-            }
+        if (error) {
+            throw createError("Erreur de données", 400);
+        }
 
         const { name } = req.body;
         const userId = parseInt(req.user.id);
 
         const event = await newEventService(userId, name);
-        res.status(200).json({ message: "Event créé avec succés !!", event })
+
+        if (!event) {
+            throw createError("Une erreur s'est produit lors de la création", 500);
+        }
+
+        res.status(201).json({ message: "Album créé avec succés !!", event });
 
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
@@ -34,45 +38,52 @@ export const deleteEventController = async (req, res, next) => {
 
         const { error } = deleteEventSchema.validate(req.params);
 
-            if (error) {
-                res.status(400).json({ message: "Erreur de données" });
-                return;
-            }
+        if (error) {
+            throw createError("Erreur de données", 400);
+        }
 
         const { eventId } = req.params;
         const parsedEventId = parseInt(eventId);
+        const userId = parseInt(req.user.id);
 
-        const event = await deleteEventService(parsedEventId);
-        res.status(200).json({ message: "Événement supprimé avec succès", event });
+        const event = await deleteEventService(parsedEventId, userId);
+
+        if (!event) {
+            throw createError("Une erreur s'est produit lors de la suppression", 500);
+        }
+
+        res.status(200).json({ message: "Album supprimé avec succès", event });
         
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
 
 /// Controller pour mettre a jour le nom d'un event ///
 
-export const updateEventNameController = async (req, res) => {
+export const updateEventNameController = async (req, res, next) => {
 
     try {
 
         const { error } = updateNameSchema.validate({ ...req.body, ...req.params });
 
-            if (error) {
-                res.status(400).json({ message: "Erreur de données" });
-                return;
-            }
+        if (error) {
+            throw createError("Erreur de données", 400);
+        }
 
         const { eventId } = req.params;
         const { newName } = req.body;
         const parsedEventId = parseInt(eventId);
         
         const event = await updateEventNameService(parsedEventId, newName);
-        res.status(201).json({ message: "Événement modifié avec succès", event })
+
+        if (!event) {
+            throw createError("Une erreur s'est produit lors de la modification", 500);
+        }
+
+        res.status(200).json({ message: "Le nom a été modifié avec succès", event })
 
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };
@@ -85,21 +96,22 @@ export const updateEventAccessController = async (req, res, next) => {
 
         const { error } = deleteEventSchema.validate(req.params);
 
-            if (error) {
-                res.status(400).json({ message: "Erreur de données" });
-                return;
-            }
+        if (error) {
+            throw createError("Erreur de données", 400);
+        }
 
         const { eventId } = req.params;
         const parsedEventId = parseInt(eventId);
         
         const event = await updateEventAccessService(parsedEventId);
-        
-        res.status(201).json({ message: `Votre album est maintenant ${event.public === true ? "publique" : "privé"}`, event });
 
+        if (!event) {
+            throw createError("Une erreur s'est produit lors de la modification", 500);
+        }
+        
+        res.status(200).json({ message: `Votre album est maintenant ${event.public === true ? "publique" : "privé"}`, event });
 
     } catch (error) {
-        console.log(error);
         next(error);
     }
 };

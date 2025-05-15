@@ -15,10 +15,6 @@ export const restPasswordForm = async (req, res, next) => {
             throw createError("Token déjà utilisé", 400);
         }
 
-        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-        res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Expires', '0');
-        res.setHeader('ETag', '');
         return res.render('resetPassword', { token });
 
     } catch (error) {

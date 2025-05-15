@@ -48,7 +48,7 @@ export const getImagesByTagController = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-}
+};
 
 /// Controlleur pour uploader une image sur GCS via multer en memory ///
 

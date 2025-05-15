@@ -4,47 +4,32 @@ import createError from "../utils/createError.js";
 
 /// Service pour creer un event ///
 
-export const newEventService = async (userId, name) => {
-  
-    try {
-        const verifUser = await getUserById(userId);   
+export const newEventService = async (userId, name) => { 
 
-            if (!verifUser) {
-                throw createError("Utilisateur inexistant", 404)
-            };
+    const verifUser = await getUserById(userId);   
 
-        const newEvent = await createEvent(userId, name);
+    if (!verifUser) {
+        throw createError("Utilisateur inexistant", 404)
+    };
 
-            return newEvent;
-
-    } catch (error) {
-        throw error;
-    }
+    return await createEvent(userId, name);
 };
 
 /// Service pour supprimer un event ///
 
-export const deleteEventService = async (eventId) => {
+export const deleteEventService = async (eventId, userId) => {
 
-    try {
+    const existingEvent = await getOneEvent(eventId);
 
-        const existingEvent = await getOneEvent(eventId);
-
-        if (!existingEvent) {
-            throw createError("Event introuvable", 404);
-        }
-
-        const event = await deleteEventById(eventId);
-
-        if (!event) {
-            throw createError("Erreur lors de la suppression de l'événement.", 500);
-        }
-
-        return event;
-        
-    } catch (error) {
-        throw error;
+    if (!existingEvent) {
+        throw createError("Event introuvable", 404);
     }
+
+    if (parseInt(existingEvent.user_id) !== userId) {
+        throw createError("Accès interdit", 403);
+    }
+
+    return await deleteEventById(eventId);
 };
 
 /// Service pour mettre a jour le nom d'un event ///
